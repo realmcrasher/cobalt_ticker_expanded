@@ -14,13 +14,10 @@ def out(screen):
         p = 0
         while len(board[0]) > abs(p):
             screen.print_at(bprin, p, 0)
-            # screen.print_at(abs(len(board[0])), 0, 0)
             screen.refresh()
             p = p - 1
             time.sleep(.1)
         board.pop(0)
-
-        
 
 def cobalttext():
     global last
@@ -29,30 +26,21 @@ def cobalttext():
         file = random.choice(os.listdir("./cobaltticker/talks/"))
     last = file
     path = f'./cobaltticker/talks/{file}'
-    if file == "weather.txt":
-        liner = makeweather(path)
-    elif file == "fanbase.txt":
-        liner = makename(path)
-    else:
-        liner = noedittext(path)
+    liner = getline(path)
     
-    # print(liner)
     return liner
 
 def makeweather(path):
     with open(path, "r") as file:
         lines = file.readlines()
         liner = random.choice(lines).strip()
-    with open("./cobaltticker/weather/weather_events.txt", "r") as file:
+    with open("./cobaltticker/library/weather_events.txt", "r") as file:
         lines = file.readlines()
         liner = f'{liner} {random.choice(lines).strip()}'
     return liner
 
-def makename(path):
-    with open(path, "r") as file:
-        lines = file.readlines()
-        liner = random.choice(lines).strip()
-    liner = f'{liner} {gfirst()} {glast()}'
+def makename():
+    liner = f'{gfirst()} {glast()}'
     return liner
 
 def gfirst():
@@ -85,11 +73,24 @@ def glast():
         word = random.choice(lines).strip()
     return word
 
-def noedittext(path):
+def getline(path):
     with open(path, "r") as file:
         lines = file.readlines()
         liner = random.choice(lines)
-    return liner
+    liner = liner.split()
+    pliner = []
+    for word in liner:
+        if str(word) == "_name":
+            pliner.append(f'{makename()}')
+        elif str(word)[0] == "_":
+            with open(f'./cobaltticker/library/{word}.txt', "r") as file:
+                lines = file.readlines()
+                pliner.append(f'{random.choice(lines)}')
+        else:
+            pliner.append(f'{word}')
+            
+    pliner = ' '.join(pliner)
+    return pliner
 
 Screen.wrapper(out)
 # # cobalttext()
