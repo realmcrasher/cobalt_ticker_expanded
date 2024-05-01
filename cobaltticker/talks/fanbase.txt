@@ -1,3 +1,3 @@
-Cobalt Agent of the year is *drum roll* 
-Wanted for illegal modifications: 
-Winner of the dance competition is *drum roll* 
+Cobalt Agent of the year is *drum roll* _name
+Wanted for illegal modifications: _name
+Winner of the dance competition is *drum roll* _name
